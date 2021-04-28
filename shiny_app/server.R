@@ -1,0 +1,88 @@
+##source("f_one_maps.R")
+
+library(shiny)
+library(dplyr)
+library(leaflet)
+latlong <- data.frame(lat  = c(26.030948638916016,
+                               44.344573974609375,
+                               37.23249053955078, 
+                               41.569488525390625,
+                               43.73725891113281, 
+                               40.3725,           
+                               45.50131607055664, 
+                               43.251705169677734,
+                               47.2221313,        
+                               52.07159423828125, 
+                               47.5826489,        
+                               50.43744659423828, 
+                               52.3822728,        
+                               45.61837387084961, 
+                               43.407433,         
+                               1.2912369966506958,
+                               34.843692779541016,
+                               30.132610321044922,
+                               19.40512466430664, 
+                               -23.7005224,        
+                               37.8516947,        
+                               21.631944,         
+                               24.4718447),
+                      long = c(50.51134490966797,
+                               11.713808059692383,
+                               -8.636198043823242,
+                               2.2575831413269043,
+                               7.4236249923706055,
+                               49.853333,
+                               -73.52262115478516,
+                               5.79338264465332,
+                               14.7643164,
+                               -1.0170936584472656,
+                               19.2500236,
+                               5.971240997314453,
+                               4.5337069,
+                               9.283500671386719,
+                               39.9606804,
+                               103.86397552490234,
+                               136.54049682617188,
+                               -97.64154052734375,
+                               -99.0939712524414,
+                               -46.6971701,
+                               144.9730199,
+                               39.104444,
+                               54.6057885))
+sites <- c("<a href = 'https://www.formula1.com/en/racing/2021/Bahrain.html/'>Bahrain 26 March </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/EmiliaRomagna.html'>Italy-16 April </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Portugal.html'>Portugal-30 April </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Spain.html'>Spain-07 May </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Monaco.html'>Monaco-20 May </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Azerbaijan.html'>Azerbaijan-04 Jun </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Canada.html'>Canada-11 Jun </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/France.html'>France-25 Jun </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Austria.html'>Austria-02 July </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Great_Britain.html'>Great Britain-16 Jul </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Hungary.html'>Hungary-30 Jul </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Belgium.html'>Belgium-27 Aug </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Netherlands.html'>Netherlands-03 Sept </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Italy.html'>Italy-10 Sept </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Russia.html'>Russia-25 Sept </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Singapore.html'>Singapore-01 Oct </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Japan.html'>Japan-08 Oct </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/United_States.html/'>United States-22 Oct </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Mexico.html'>Mexico-29 Oct </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Brazil.html'>Brazil-05 Nov </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Australia.html'>Australia-19 Nov </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/Saudi_Arabia.html'>Saudi Arabia03 Dec </a>",
+           "<a href = 'https://www.formula1.com/en/racing/2021/United_Arab_Emirates.html/'>UAE-10 Dec</a>")
+
+
+# Define server logic required to draw a histogram
+shinyServer(function(input, output) {
+    output$currentDate <- renderText({
+        format(Sys.Date())
+        })
+    output$map <- renderLeaflet({
+        latlong %>%
+            leaflet() %>%
+            addTiles() %>%
+            addMarkers(clusterOptions = markerClusterOptions(), popup = sites)
+    })
+})

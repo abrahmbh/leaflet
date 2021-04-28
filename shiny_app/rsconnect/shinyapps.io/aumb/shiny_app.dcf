@@ -1,0 +1,13 @@
+name: shiny_app
+title: shiny_app
+username:
+account: aumb
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4042830
+bundleId: 4527806
+url: https://aumb.shinyapps.io/shiny_app/
+when: 1619576001.3673
+lastSyncTime: 1619576001.3673
+asMultiple: FALSE
+asStatic: FALSE
